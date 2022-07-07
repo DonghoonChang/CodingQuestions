@@ -5,8 +5,8 @@ import java.lang.reflect.Method;
 public class Main {
     public static void main(String[] args) throws IOException {
 
-        final String problem = "BearAndSteadyGene";
-        final String name = String.join(".", new String[]{"ProblemSolving", "Algorithms", "Strings", problem});
+        final String problem = "TheFullCountingSort";
+        final String name = String.join(".", new String[]{"ProblemSolving", "Algorithms", "Sorting", problem});
         final String main = "main";
 
         try {
