@@ -15,61 +15,80 @@ public class FraudulentActivityNotifications {
         // 2. Counting sort
         public static int activityNotifications(List<Integer> expenditure, int d) {
 
-            Queue<Integer> trailingExpenditures = new LinkedList<>();
+            int[] trailingExpenditures = new int[maxExpenditure + 1];
 
             // O(n): loop X T
             int alerts = 0;
-            for(int i = 0; i < expenditure.size(); i++){
+            for (int i = 0; i < expenditure.size(); i++) {
                 int todayExp = expenditure.get(i);
 
                 // first d days
-                if(i < d){
-                    trailingExpenditures.add(todayExp);
+                if (i < d) {
+                    trailingExpenditures[todayExp]++;
                     continue;
                 }
 
-                double median = getMedian(trailingExpenditures, d);
+                int median = getTwiceMedian(trailingExpenditures, d);
 
-                if(todayExp >= 2 * median){
+                if (todayExp >= median) {
                     alerts++;
                 }
 
                 // prepare for tomorrow
-                trailingExpenditures.remove();
-                trailingExpenditures.add(todayExp);
+                int oldestExp = expenditure.get(i - d);
+                trailingExpenditures[oldestExp]--;
+                trailingExpenditures[todayExp]++;
             }
 
             return alerts;
         }
 
-        private static double getMedian(Queue<Integer> queue, int d){
-            int[] expenditures = queue.stream().mapToInt(Integer::intValue).toArray();
-            int[] sorted = countSort(expenditures);
+        private static int getTwiceMedian(int[] trailingExpenditures, int d) {
+            int[] cumulativeCount = new int[maxExpenditure + 1];
 
-            int middleIndex = d / 2;
-            int middleValue = sorted[middleIndex];
-            int middleValue2 = sorted[middleIndex - 1];
+            for (int i = 0; i <= maxExpenditure; i++) {
+                if (i == 0) {
+                    cumulativeCount[i] = trailingExpenditures[0];
+                    continue;
+                }
 
-            return (d % 2 == 1) ? middleValue : (middleValue + middleValue2) / 2.0;
-        }
-
-        private static int[] countSort(int[] nums){
-            int[] counts = new int[maxExpenditure + 1];
-            int[] sorted = new int[nums.length];
-            for(int num: nums){
-                counts[num]++;
+                cumulativeCount[i] = cumulativeCount[i - 1] + trailingExpenditures[i];
             }
 
-            for(int i = 1; i <= maxExpenditure; i++){
-                counts[i] = counts[i - 1] + counts[i];
+
+            if (d % 2 == 1) {
+                int middleCount = d / 2 + 1;
+                for (int i = 1; i <= maxExpenditure; i++) {
+                    int currCount = cumulativeCount[i];
+
+                    if (currCount >= middleCount) {
+                        return 2 * i;
+                    }
+                }
+            } else {
+                int middleACount = d / 2;
+                int middleBCount = d / 2 + 1;
+                int medianA = -1;
+                int medianB = -1;
+
+                for (int i = 1; i <= maxExpenditure; i++) {
+                    int currCount = cumulativeCount[i];
+
+                    if (medianA == -1 && currCount >= middleACount) {
+                        medianA = i;
+                    }
+
+                    if (medianA != -1 && currCount >= middleBCount) {
+                        medianB = i;
+                        break;
+                    }
+                }
+
+                return medianA + medianB;
             }
 
-            // usually reverse
-            for(int num: nums){
-                sorted[--counts[num]] = num;
-            }
-
-            return sorted;
+            // should not be reachable
+            return -1;
         }
     }
 
