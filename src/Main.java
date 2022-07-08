@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 public class Main {
     public static void main(String[] args) throws IOException {
 
-        final String problem = "HackerlandRadioTransmitters";
+        final String problem = "GridlandMetro";
         final String name = String.join(".", new String[]{"ProblemSolving", "Algorithms", "Search", problem});
         final String main = "main";
 
