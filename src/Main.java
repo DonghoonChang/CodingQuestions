@@ -5,15 +5,16 @@ import java.lang.reflect.Method;
 public class Main {
     public static void main(String[] args) throws IOException {
 
-        final String problem = "InsertANodeAtTheTailOfALinkedList";
+        final String problem = "HuffmanDecoding";
         final String PROBLEM_SOLVING = "ProblemSolving";
         final String DATA_STRUCTURES = "DataStructures";
         final String ALGORITHMS = "Algorithms";
         final String SEARCH = "Search";
         final String ARRAYS = "Arrays";
+        final String TREES = "Trees";
         final String LinkedLists = "LinkedLists";
 
-        final String name = String.join(".", new String[]{DATA_STRUCTURES, LinkedLists, problem});
+        final String name = String.join(".", new String[]{DATA_STRUCTURES, TREES, problem});
         final String main = "main";
 
         try {
