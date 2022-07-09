@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 public class Main {
     public static void main(String[] args) throws IOException {
 
-        final String problem = "ArrayManipulation";
+        final String problem = "SparseArrays";
         final String PROBLEM_SOLVING = "ProblemSolving";
         final String DATA_STRUCTURES = "DataStructures";
         final String ALGORITHMS = "Algorithms";
