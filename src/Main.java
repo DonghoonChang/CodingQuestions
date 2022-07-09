@@ -5,8 +5,14 @@ import java.lang.reflect.Method;
 public class Main {
     public static void main(String[] args) throws IOException {
 
-        final String problem = "KnightLOnAChessboard";
-        final String name = String.join(".", new String[]{"ProblemSolving", "Algorithms", "Search", problem});
+        final String problem = "ArrayManipulation";
+        final String PROBLEM_SOLVING = "ProblemSolving";
+        final String DATA_STRUCTURES = "DataStructures";
+        final String ALGORITHMS = "Algorithms";
+        final String SEARCH = "Search";
+        final String ARRAYS = "Arrays";
+
+        final String name = String.join(".", new String[]{DATA_STRUCTURES, ARRAYS, problem});
         final String main = "main";
 
         try {
