@@ -26,7 +26,6 @@ public class IntroductionToNimGame {
             }
 
             return "First";
-
         }
 
     }
