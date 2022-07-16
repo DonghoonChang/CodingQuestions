@@ -6,14 +6,27 @@ public class SyntaxCheck {
 
     public static void main(String[] args){
 
-        String a = "kc";
-        String b = "iu";
+        for(int i = 1; i <= 100; i++){
+            System.out.println(String.format("%d:%d", i, countPrimeFactors(i)));
+        }
 
-        List<String> lst = new ArrayList<>();
-        lst.add(a);
-        lst.add(b);
+    }
 
-        Collections.sort(lst);
-        System.out.println(lst);
+    private static int countPrimeFactors(int n){
+        int next = n;
+        int prime = 2;
+        int count = 0;
+        while (next != 1 && prime <= next){
+            if(next % prime == 0){
+                do {
+                    count++;
+                    next = next / prime;
+                } while (next % prime == 0);
+            }
+
+            prime++;
+        }
+
+        return count;
     }
 }
