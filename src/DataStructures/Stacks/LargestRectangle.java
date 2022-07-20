@@ -1,10 +1,7 @@
 package DataStructures.Stacks;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
@@ -31,56 +28,62 @@ public class LargestRectangle {
         }
 
         public static long largestRectangle(List<Integer> h) {
-            List<Integer> debug = new ArrayList<>();
             Stack<Building> stack = new Stack<>();
+            Map<Integer, Integer> map = new HashMap<>();
 
-            int maxArea = h.size(); // 1 * # of buildings
+            int maxArea = 0;
+            int previousHeight = h.get(0);
+            h.add(0); // adding a building of no height at the end
             for(int i = 0; i < h.size(); i++){
-                maxArea = Math.max(maxArea, h.get(i)); // single buildings
-            }
+                Building thisBuilding = new Building(h.get(i), i);
+                addOrPut(map, i, thisBuilding.height);
 
-            for(int a = 0; a < 2; a++){
-                int previousHeight = h.get(0);
-                for(int i = 0; i < h.size(); i++){
-                    Building thisBuilding = new Building(h.get(i), i);
-
-                    if(i == 0){
-                        stack.add(thisBuilding);
-                        continue;
-                    }
-
-                    // increasing
-                    if(previousHeight < thisBuilding.height){
-                        stack.add(thisBuilding);
-
-                    } else { // decreasing
-
-                        while(!stack.isEmpty() && stack.peek().height >= thisBuilding.height){
-                            stack.pop();
-                        }
-
-                        if(stack.isEmpty()){ // found the new lowest among the traversed elements
-                            int area = thisBuilding.height * (thisBuilding.index + 1);
-                            debug.add(area);
-                            maxArea = Math.max(maxArea, thisBuilding.height * (thisBuilding.index + 1));
-                        } else { // found the next lowest building than the current and the current is not the lowest among the traversed elements
-                            int area = thisBuilding.height * (thisBuilding.index - stack.peek().index);
-                            debug.add(area);
-                            maxArea = Math.max(maxArea, thisBuilding.height * (thisBuilding.index - stack.peek().index));
-                        }
-
-                        stack.add(thisBuilding);
-                    }
-
-                    previousHeight = thisBuilding.height;
+                if(i == 0){
+                    stack.add(thisBuilding);
+                    continue;
                 }
 
-                Collections.reverse(h);
-                stack.removeAllElements();
+                // increasing
+                if(previousHeight < thisBuilding.height){
+                    stack.add(thisBuilding);
+                    previousHeight = thisBuilding.height;
+                    continue;
+                }  // decreasing
+
+                while(!stack.isEmpty() && stack.peek().height >= thisBuilding.height){
+                    Building prev = stack.pop();
+                    int area = prev.height * (i - prev.index - 1);
+                    addOrPut(map, prev.index, area);
+                }
+
+                if(stack.isEmpty()){ // found the new lowest among the traversed elements
+                    int area = thisBuilding.height * (thisBuilding.index);
+                    addOrPut(map, i, area);
+                } else { // found the next lowest building than the current and the current is not the lowest among the traversed elements
+                    int area = thisBuilding.height * (thisBuilding.index - stack.peek().index - 1);
+                    addOrPut(map, i, area);
+                }
+
+                stack.add(thisBuilding);
+                previousHeight = thisBuilding.height;
+            }
+
+            for(Integer area : map.values()){
+                maxArea = Math.max(maxArea, area);
             }
 
             return maxArea;
         }
+
+        private static void addOrPut(Map<Integer, Integer> map, int index, int area) {
+            if (map.containsKey(index)) {
+                int existing = map.get(index);
+                map.put(index, existing + area);
+            } else {
+                map.put(index, area);
+            }
+        }
+
 
     }
 
