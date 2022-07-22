@@ -5,6 +5,6 @@ import java.util.List;
 public class SyntaxCheck {
 
     public static void main(String[] args){
-        System.out.println(1<<31 - 1);
+        System.out.println((int) (Integer) null);
     }
 }
