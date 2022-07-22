@@ -23,22 +23,19 @@ public class ConstructBinaryTreeFromPreorderAndInorderTraversal {
     }
     /*
 
-    Runtime: 3 ms, faster than 88.47% of Java online submissions for Construct Binary Tree from Preorder and Inorder Traversal.
-    Memory Usage: 44.3 MB, less than 59.12% of Java online submissions for Construct Binary Tree from Preorder and Inorder Traversal.
+Runtime: 2 ms, faster than 99.03% of Java online submissions for Construct Binary Tree from Preorder and Inorder Traversal.
+Memory Usage: 42.3 MB, less than 86.68% of Java online submissions for Construct Binary Tree from Preorder and Inorder Traversal.
 
      */
 
     private static Map<Integer, Integer> _inOrderInverseMap = new HashMap<>();
 
     public static TreeNode buildTree(int[] preorder, int[] inorder) {
-        int l = preorder.length;
-
-        // Construct index map
-        for(int i = 0 ; i < l ; i ++){
+        for(int i = 0 ; i < preorder.length ; i ++){
             _inOrderInverseMap.put(inorder[i], i);
         }
 
-        return buildSubtree(preorder, inorder, 0, 0, l - 1);
+        return buildSubtree(preorder, inorder, 0, 0, preorder.length - 1);
     }
 
     private static TreeNode buildSubtree(int[] _preorder, int[] _inorder, int midPreOrder, int minInOrder, int maxInOrder){
