@@ -23,38 +23,40 @@ public class ConstructBinaryTreeFromPreorderAndInorderTraversal {
     }
     /*
 
-        Runtime: 2 ms, faster than 99.03% of Java online submissions for Construct Binary Tree from Preorder and Inorder Traversal.
-        Memory Usage: 42.3 MB, less than 86.68% of Java online submissions for Construct Binary Tree from Preorder and Inorder Traversal.
+    Runtime: 1 ms, faster than 100.00% of Java online submissions for Construct Binary Tree from Preorder and Inorder Traversal.
+    Memory Usage: 44.1 MB, less than 68.90% of Java online submissions for Construct Binary Tree from Preorder and Inorder Traversal.
 
      */
 
-    private static Map<Integer, Integer> _inOrderInverseMap = new HashMap<>();
-
     public static TreeNode buildTree(int[] preorder, int[] inorder) {
-        for(int i = 0 ; i < preorder.length ; i ++){
-            _inOrderInverseMap.put(inorder[i], i);
-        }
-
-        return buildSubtree(preorder, 0, 0, preorder.length - 1);
+        return buildSubtree(preorder, inorder,0, 0, preorder.length - 1);
     }
 
-    private static TreeNode buildSubtree(int[] _preorder, int midPreOrder, int minInOrder, int maxInOrder){
+    private static TreeNode buildSubtree(int[] _preorder, int[] _inorder, int midPreOrder, int minInOrder, int maxInOrder){
         int midVal = _preorder[midPreOrder];
-        int midInOrder = _inOrderInverseMap.get(midVal);
+        int midInOrder = findIndex(_inorder, minInOrder, maxInOrder, midVal);
         int leftSize = 0;
 
         TreeNode subRoot = new TreeNode(midVal);
 
         if(midInOrder != minInOrder){
             leftSize = midInOrder - minInOrder;
-            subRoot.left = buildSubtree(_preorder, midPreOrder + 1, minInOrder, midInOrder - 1);
+            subRoot.left = buildSubtree(_preorder, _inorder,midPreOrder + 1, minInOrder, midInOrder - 1);
         }
 
         if(midInOrder != maxInOrder){
-            subRoot.right = buildSubtree(_preorder, midPreOrder + leftSize + 1, midInOrder + 1, maxInOrder);
+            subRoot.right = buildSubtree(_preorder, _inorder, midPreOrder + leftSize + 1, midInOrder + 1, maxInOrder);
         }
 
         return subRoot;
+    }
+
+    private static int findIndex(int[] inorder, int start, int end, int val) {
+        while(start < end && inorder[start] != val && inorder[end] != val) {
+            start++;
+            end--;
+        }
+        return inorder[start] == val ? start : end;
     }
 
     public static void main(String[] args){
