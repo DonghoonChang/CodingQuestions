@@ -3,8 +3,8 @@ package LeetCode.Hard;
 public class MedianOfTwoSortedArrays {
 
     /*
-        Runtime: 3 ms, faster than 88.56% of Java online submissions for Median of Two Sorted Arrays.
-        Memory Usage: 49.4 MB, less than 74.64% of Java online submissions for Median of Two Sorted Arrays.
+        Runtime: 2 ms, faster than 100.00% of Java online submissions for Median of Two Sorted Arrays.
+        Memory Usage: 43 MB, less than 95.12% of Java online submissions for Median of Two Sorted Arrays.
      */
     public static double findMedianSortedArrays(int[] a, int[] b) {
         if (a.length > b.length) {
