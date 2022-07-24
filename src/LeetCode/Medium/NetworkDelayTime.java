@@ -21,8 +21,8 @@ public class NetworkDelayTime {
     }
 
     /*
-        Runtime: 65 ms, faster than 13.21% of Java online submissions for Network Delay Time.
-        Memory Usage: 65.6 MB, less than 45.86% of Java online submissions for Network Delay Time.
+        Runtime: 38 ms, faster than 36.79% of Java online submissions for Network Delay Time.
+        Memory Usage: 64.8 MB, less than 51.22% of Java online submissions for Network Delay Time.
      */
 
     public static int networkDelayTime(int[][] times, int n, int k) {
@@ -62,6 +62,10 @@ public class NetworkDelayTime {
             delays.put(nextSmallest.to, nextSmallest.delay);
             toVisit.add(nextSmallest.to);
             visited.add(nextSmallest.to);
+
+            if(delays.keySet().size() == n){
+                break;
+            }
         }
 
         if(delays.keySet().size() != n){
