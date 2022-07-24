@@ -5,6 +5,10 @@ import java.util.List;
 public class SyntaxCheck {
 
     public static void main(String[] args){
-        System.out.println(-1 / 2);
+        String test = "abcde";
+        for(int i = 0; i < test.length(); i ++){
+            String pattern = test.substring(0, i) + "*" + test.substring(i + 1);
+            System.out.println(pattern);
+        }
     }
 }

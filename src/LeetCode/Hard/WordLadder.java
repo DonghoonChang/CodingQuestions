@@ -4,7 +4,82 @@ import java.util.*;
 
 public class WordLadder {
 
-    //Bel
+    /*
+        Runtime: 49 ms, faster than 92.91% of Java online submissions for Word Ladder.
+        Memory Usage: 50.3 MB, less than 73.99% of Java online submissions for Word Ladder.
+     */
+    public static int ladderLength2(String beginWord, String endWord, List<String> wordList) {
+        if(!wordList.stream().anyMatch(l -> l.equals(endWord))){
+            return 0;
+        }
+
+        Map<String, List<String>> patternToWords = new HashMap<>();
+        wordList.add(beginWord);
+        for(String word: wordList){
+            List<String> patterns = getPatterns(word);
+
+            for(String pattern: patterns){
+                extendedPut(patternToWords, pattern, word);
+            }
+        }
+
+        Set<String> visited = new HashSet<>();
+        Queue<String> toVisit = new LinkedList<>();
+        toVisit.add(beginWord);
+        visited.add(beginWord);
+
+        int steps = 1;
+        while(!toVisit.isEmpty()){
+            int size = toVisit.size();
+            for(int i = 0; i < size; i++){
+                String word = toVisit.poll();
+                if(word.equals(endWord)){
+                    return steps;
+                }
+
+                for(String pattern: getPatterns(word)){
+                    for(String neighbour: patternToWords.get(pattern)){
+                        if(visited.contains(neighbour)){
+                            continue;
+                        }
+
+                        toVisit.add(neighbour);
+                        visited.add(neighbour);
+                    }
+                }
+            }
+
+            steps++;
+        }
+
+        return 0;
+    }
+
+    private static void extendedPut(Map<String, List<String>> map, String key, String value){
+        if(map.containsKey(key)){
+            map.get(key).add(value);
+            return;
+        }
+
+        List<String> list = new ArrayList<>(){{
+            add(value);
+        }};
+
+        map.put(key, list);
+    }
+
+    private static List<String> getPatterns(String original){
+        List<String> list = new ArrayList<>();
+        for(int i = 0; i < original.length(); i++){
+            list.add(original.substring(0, i) + "*" + original.substring(i + 1));
+        }
+
+        return list;
+    }
+
+
+    // Bellman-ford
+    // Inefficient, but without ways get neighbours in O(1), this is the best choice
     /*
         Runtime: 935 ms, faster than 15.67% of Java online submissions for Word Ladder.
         Memory Usage: 77.9 MB, less than 49.58% of Java online submissions for Word Ladder.
@@ -88,7 +163,17 @@ public class WordLadder {
         return diffCount <= 1;
     }
     public static void main(String[] args) {
-        int result = ladderLength("leet", "code", Arrays.stream(new String[]{"lest","leet","lose","code","lode","robe","lost"}).toList());
+        List<String> list = new ArrayList<>();
+        list.add("ted");
+        list.add("tex");
+        list.add("red");
+        list.add("tax");
+        list.add("tad");
+        list.add("den");
+        list.add("rex");
+        list.add("pee");
+
+        int result = ladderLength2("red", "tax", list);
         System.out.println(result);
     }
 }
