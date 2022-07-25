@@ -3,7 +3,10 @@ package LeetCode.Medium;
 import java.util.*;
 
 public class CheapestFlightsWithinKStops {
-    // Exemplary Input: n = 4, flights = [[0,1,100],[1,2,100],[2,0,100],[1,3,600],[2,3,200]], src = 0, dst = 3, k = 1
+    /*
+        Runtime: 7 ms, faster than 70.41% of Java online submissions for Cheapest Flights Within K Stops.
+        Memory Usage: 47.3 MB, less than 42.63% of Java online submissions for Cheapest Flights Within K Stops.
+     */
     public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
         Map<Integer, List<int[]>> graph = new HashMap<>();
         Queue<Integer> toVisit = new LinkedList<>();
