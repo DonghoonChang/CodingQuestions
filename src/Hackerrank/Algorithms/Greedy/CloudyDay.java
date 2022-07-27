@@ -1,6 +1,6 @@
 package Hackerrank.Algorithms.Greedy;
 
-import Hackerrank.Utils.Stopwatch;
+import Utils.Stopwatch;
 
 import java.io.*;
 import java.util.*;

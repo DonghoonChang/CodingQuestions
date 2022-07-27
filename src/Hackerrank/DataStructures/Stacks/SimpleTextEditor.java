@@ -1,6 +1,6 @@
 package Hackerrank.DataStructures.Stacks;
 
-import Hackerrank.Utils.Stopwatch;
+import Utils.Stopwatch;
 
 import java.util.ArrayList;
 import java.util.List;
