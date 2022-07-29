@@ -1,22 +1,24 @@
 package LeetCode.Medium;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 /*
-Runtime: 25 ms, faster than 5.01% of Java online submissions for Minimum Cost For Tickets.
-Memory Usage: 42.4 MB, less than 34.42% of Java online submissions for Minimum Cost For Tickets.
+Runtime: 12 ms, faster than 6.48% of Java online submissions for Minimum Cost For Tickets.
+Memory Usage: 42.3 MB, less than 40.22% of Java online submissions for Minimum Cost For Tickets.
  */
 public class MinimumCostForTickets {
     static int min;
     static int[] _days;
     static int[] _costs;
-    static Map<Integer, Integer> costMap;
+    static int[] costMap;
 
     public int mincostTickets(int[] days, int[] costs) {
         _days = days;
         _costs = costs;
-        costMap = new HashMap<>();
+        costMap = new int[days.length];
+        Arrays.fill(costMap, Integer.MAX_VALUE);
         min = Integer.MAX_VALUE;
 
         inner(0, 0);
@@ -30,10 +32,10 @@ public class MinimumCostForTickets {
             return;
         }
 
-        if (costMap.containsKey(dayIndex) && costMap.get(dayIndex) <= cost) {
+        if (costMap[dayIndex] <= cost) {
             return;
         } else {
-            costMap.put(dayIndex, cost);
+            costMap[dayIndex] = cost;
         }
 
         int currDay = _days[dayIndex];
