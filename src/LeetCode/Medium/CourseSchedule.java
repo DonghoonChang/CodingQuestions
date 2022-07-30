@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 /*
-Runtime: 12 ms, faster than 38.45% of Java online submissions for Course Schedule.
-Memory Usage: 47.7 MB, less than 62.91% of Java online submissions for Course Schedule.
+Runtime: 4 ms, faster than 93.78% of Java online submissions for Course Schedule.
+Memory Usage: 42.8 MB, less than 90.79% of Java online submissions for Course Schedule.
  */
 public class CourseSchedule {
     // prerequisite[i] = [target, prerequisite]
