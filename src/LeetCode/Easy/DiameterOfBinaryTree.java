@@ -3,8 +3,8 @@ package LeetCode.Easy;
 import Utils.TreeNode;
 
 /*
-    Runtime: 1 ms, faster than 64.49% of Java online submissions for Diameter of Binary Tree.
-    Memory Usage: 43.2 MB, less than 55.04% of Java online submissions for Diameter of Binary Tree.
+    Runtime: 0 ms, faster than 100.00% of Java online submissions for Diameter of Binary Tree.
+    Memory Usage: 43.3 MB, less than 47.63% of Java online submissions for Diameter of Binary Tree.
  */
 public class DiameterOfBinaryTree {
     static int globalMax;
