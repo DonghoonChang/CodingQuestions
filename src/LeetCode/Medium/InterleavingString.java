@@ -7,8 +7,8 @@ import java.util.Set;
 
 
 /*
-    Runtime: 12 ms, faster than 14.69% of Java online submissions for Interleaving String.
-    Memory Usage: 56.1 MB, less than 5.15% of Java online submissions for Interleaving String.
+    Runtime: 4 ms, faster than 63.53% of Java online submissions for Interleaving String.
+    Memory Usage: 45.5 MB, less than 8.66% of Java online submissions for Interleaving String.
  */
 public class InterleavingString {
 
@@ -27,6 +27,10 @@ public class InterleavingString {
     }
 
     private void inner(String s1, String s2, String s3, int i, int j, int k, boolean[][][] memo){
+        if(count > 0){
+            return;
+        }
+
         if(memo[i][j][k]){
             return;
         }
