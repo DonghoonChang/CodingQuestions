@@ -3,7 +3,7 @@ package LeetCode.Easy;
 import Utils.TreeNode;
 
 // start time: 8:25
-// end time: 8:25
+// end time: 8:35
 
 /*
     Runtime: 6 ms, faster than 80.24% of Java online submissions for Lowest Common Ancestor of a Binary Search Tree.
