@@ -6,23 +6,12 @@ import java.util.Collections;
 // start: 9: 00
 // end: 9:30
 /*
-Bullshit solution lol
-Runtime: 1941 ms, faster than 5.00% of Java online submissions for Coin Change.
-Memory Usage: 41.9 MB, less than 94.62% of Java online submissions for Coin Change.
+Runtime: 80 ms, faster than 14.56% of Java online submissions for Coin Change.
+Memory Usage: 45.8 MB, less than 31.29% of Java online submissions for Coin Change.
  */
 public class CoinChange {
     public int coinChange(int[] coins, int amount) {
-        if(amount % 2 == 1 && Arrays.stream(coins).allMatch(l -> l % 2 == 0)){
-            return -1;
-        }
 
-        if(coins.length == 1){
-            if(amount % coins[0] == 0){
-                return amount / coins[0];
-            }
-
-            return -1;
-        }
 
         Integer[] _coins = Arrays.stream(coins).boxed().toArray(Integer[]::new);
         Arrays.sort(_coins, Collections.reverseOrder());
@@ -35,7 +24,7 @@ public class CoinChange {
     }
 
     private void inner(Integer[] coins, int remaining, int count, int[] memo){
-        if(memo[remaining] <= count){
+        if(remaining < 0 || memo[remaining] <= count){
             return;
         }
 
@@ -43,11 +32,8 @@ public class CoinChange {
 
         for(int i = 0; i < coins.length; i++){
             int coin = coins[i];
-            int div = remaining / coin;
 
-            for(int j = div; j > 0; j--){
-                inner(coins, remaining - j * coin, count + j, memo);
-            }
+            inner(coins, remaining - coin, count + 1, memo);
         }
     }
 
