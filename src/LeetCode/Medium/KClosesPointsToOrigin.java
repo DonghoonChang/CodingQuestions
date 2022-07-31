@@ -4,11 +4,11 @@ import java.util.*;
 
 public class KClosesPointsToOrigin {
     /*
-        Runtime: 41 ms, faster than 69.76% of Java online submissions for K Closest Points to Origin.
-        Memory Usage: 119.1 MB, less than 11.00% of Java online submissions for K Closest Points to Origin.
+        Runtime: 30 ms, faster than 87.94% of Java online submissions for K Closest Points to Origin.
+        Memory Usage: 50.4 MB, less than 97.37% of Java online submissions for K Closest Points to Origin.
      */
     public int[][] kClosest(int[][] points, int k) {
-        Queue<int[]> q = new PriorityQueue<>(Comparator.comparingInt(l -> l[0] * l[0] + l[1] * l[1]));
+        Queue<int[]> q = new PriorityQueue<>(k, Comparator.comparingInt(l -> l[0] * l[0] + l[1] * l[1]));
 
         for(int[] point: points){
             q.add(point);
