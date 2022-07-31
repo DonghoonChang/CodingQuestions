@@ -2,9 +2,6 @@ package LeetCode.Medium;
 
 // start time: 11:00
 // End time: 11:40
-import java.util.HashSet;
-import java.util.Set;
-
 
 /*
     Runtime: 1 ms, faster than 99.11% of Java online submissions for Interleaving String.
