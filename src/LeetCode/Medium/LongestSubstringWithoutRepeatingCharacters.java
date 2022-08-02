@@ -7,8 +7,8 @@ import java.util.Set;
 // end time: 10:22
 
 /*
-    Runtime: 7 ms, faster than 82.89% of Java online submissions for Longest Substring Without Repeating Characters.
-    Memory Usage: 42.8 MB, less than 87.43% of Java online submissions for Longest Substring Without Repeating Characters.
+    Runtime: 12 ms, faster than 58.86% of Java online submissions for Longest Substring Without Repeating Characters.
+    Memory Usage: 46.9 MB, less than 19.15% of Java online submissions for Longest Substring Without Repeating Characters.
  */
 public class LongestSubstringWithoutRepeatingCharacters {
     public int lengthOfLongestSubstring(String s) {
