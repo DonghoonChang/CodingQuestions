@@ -59,5 +59,7 @@ public class TruckTour {
         pumps.add(Arrays.asList(3, 4));
 
         int result = (new TruckTour()).truckTour(pumps);
+
+        System.out.println(result);
     }
 }
