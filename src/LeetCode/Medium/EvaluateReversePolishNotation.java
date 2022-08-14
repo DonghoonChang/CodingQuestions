@@ -4,15 +4,15 @@ import java.util.Stack;
 
 /*
 Time: 10m
-Runtime: 10 ms, faster than 45.29% of Java online submissions for Evaluate Reverse Polish Notation.
-Memory Usage: 44.6 MB, less than 29.04% of Java online submissions for Evaluate Reverse Polish Notation.
+Runtime: 7 ms, faster than 80.91% of Java online submissions for Evaluate Reverse Polish Notation.
+Memory Usage: 42 MB, less than 94.01% of Java online submissions for Evaluate Reverse Polish Notation.
  */
 public class EvaluateReversePolishNotation {
     public int evalRPN(String[] tokens) {
         Stack<String> stack = new Stack<>();
 
         for (String token : tokens) {
-            if (!"*".equals(token) && !"/".equals(token) && !"+".equals(token) && !"-".equals(token)) {
+            if ("*/+-".contains(token)) {
                 stack.push(token);
                 continue;
             }
