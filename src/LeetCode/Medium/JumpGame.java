@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
 
-class Solution {
+class JumpGame {
 
     /*
         Runtime: 2 ms, faster than 92.48% of Java online submissions for Jump Game.
