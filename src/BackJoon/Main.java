@@ -3,40 +3,6 @@ package BackJoon;
 import java.util.*;
 
 public class Main {
-    private static class State {
-        int step;
-        Ball red, blue;
-
-        public State(int step, Ball red, Ball blue){
-            this.step = step;
-            this.red = new Ball(red);
-            this.blue = new Ball(blue);
-        }
-
-        public State(State state){
-            this.step = state.step;
-            red = new Ball(state.red.r, state.red.c);
-            blue = new Ball(state.blue.r, state.blue.c);
-        }
-    }
-
-    private static class Ball {
-        int r, c;
-        public Ball(int r, int c){
-            this.r = r;
-            this.c = c;
-        }
-
-        public Ball(Ball ball){
-            this.r = ball.r;
-            this.c = ball.c;
-        }
-
-        public boolean exited(){
-            return r == -1 && c == -1;
-        }
-    }
-
     private static boolean[][] walls;
     private static int m;
     private static int n;
@@ -44,34 +10,34 @@ public class Main {
         m = row;
         n = column;
         walls = new boolean[m][n];
-        Ball[] balls = init(board);
-        Ball initRed = balls[0];
-        Ball initBlue = balls[1];
-        Ball hole = balls[2];
+        Integer[][] balls = init(board);
+        Integer[] initRed = balls[0];
+        Integer[] initBlue = balls[1];
+        Integer[] hole = balls[2];
         Set<Integer> prev = new HashSet<>();
 
-        PriorityQueue<State> heap = new PriorityQueue<>(Comparator.comparingInt(move -> move.step));
-        heap.add(new State(0, initRed, initBlue));
+        PriorityQueue<Integer[]> heap = new PriorityQueue<>(Comparator.comparingInt(move -> move[0]));
+        heap.add(new Integer[]{0, initRed[0], initRed[1], initBlue[0], initBlue[1]});
 
         while(!heap.isEmpty()){
-            State current = heap.poll();
-            if(current.step == 10){
+            Integer[] current = heap.poll();
+            if(current[0] == 10){
                 continue;
             }
 
-            List<State> nextStates = getNextMoves(current, hole);
+            List<Integer[]> nextStates = getNextMoves(current, hole);
 
-            for(State nextState: nextStates){
+            for(Integer[] nextState: nextStates){
                 if(prev.contains(getCashKey(nextState))){
                     continue;
                 }
 
-                if(nextState.blue.exited()){
+                if(nextState[3] == -1){
                     continue;
                 }
 
-                if(nextState.red.exited()){
-                    return nextState.step;
+                if(nextState[1] == -1){
+                    return nextState[0];
                 }
 
                 Integer cacheKey = getCashKey(nextState);
@@ -87,23 +53,23 @@ public class Main {
         return -1;
     }
 
-    private static int getCashKey(State state){
-        return 1000 * state.red.r + 100 * state.red.c + 10 * state.blue.r + state.blue.c;
+    private static int getCashKey(Integer[] state){
+        return 1000 * state[1] + 100 * state[2] + 10 * state[3] + state[4];
     }
 
-    private static List<State> getNextMoves(State current, Ball hole){
-        List<State> nextStates = new ArrayList<>();
+    private static List<Integer[]> getNextMoves(Integer[] current, Integer[] hole){
+        List<Integer[]> nextStates = new ArrayList<>();
         for(int i = -1; i <= 1; i++){
             for(int j = -1; j <= 1; j++){
                 if(i == j || i == -j){
                     continue;
                 }
 
-                if(walls[current.red.r + i][current.red.c + j] && walls[current.blue.r + i][current.blue.c + j]){
+                if(walls[current[1] + i][current[2] + j] && walls[current[3] + i][current[4] + j]){
                     continue;
                 }
 
-                State next = moveGame(current, hole, j, i);
+                Integer[] next = moveGame(current, hole, j, i);
                 nextStates.add(next);
             }
         }
@@ -111,67 +77,68 @@ public class Main {
         return nextStates;
     }
 
-    private static State moveGame(State current, Ball hole, int dh, int dv){
-        State next = new State(current);
-        next.step++;
+    private static Integer[] moveGame(Integer[] current, Integer[] hole, int dh, int dv){
+        Integer[] next = new Integer[]{current[0], current[1], current[2], current[3], current[4]};
+        next[0]++;
 
-        Ball head = next.red;
-        Ball tail = next.blue;
-
-        if(dh != 0 && (tail.r == head.r) && (tail.c - head.c) / dh > 0){
-            head = next.blue;
-            tail = next.red;
+        boolean redFirst = true;
+        if(dh != 0 && (current[3] == current[1]) && (current[4] - current[2]) / dh > 0){
+            redFirst = false;
         }
 
-        if(dv != 0 && (tail.c == head.c) && (tail.r - head.r) / dv > 0){
-            head = next.blue;
-            tail = next.red;
+        if(dv != 0 && (current[4] == current[2]) && (current[3] - current[1]) / dv > 0){
+            redFirst = false;
         }
 
-        moveBall(head, tail, hole, dh, dv);
-        moveBall(tail, head, hole, dh, dv);
+        if(redFirst){
+            moveBall(current, 1, 2, 3, 4, hole, dh, dv);
+            moveBall(current, 3, 4, 1, 2, hole, dh, dv);
+        } else {
+            moveBall(current, 3, 4, 1, 2, hole, dh, dv);
+            moveBall(current, 1, 2, 3, 4, hole, dh, dv);
+        }
 
         return next;
     }
 
-    private static Ball moveBall(Ball ball, Ball other, Ball hole, int dh, int dv){
-        int nextR = ball.r;
-        int nextC = ball.c;
+    private static void moveBall(Integer[] state, int thisR, int thisC, int otherR, int otherC, Integer[] hole, int dh, int dv){
+        int nextR = state[thisR];
+        int nextC = state[thisC];
+        int otherRLoc = state[otherR];
+        int otherCLoc = state[otherC];
 
-        while(!walls[nextR][nextC] && (other.r != nextR || other.c != nextC)){
-            if(nextR == hole.r && nextC == hole.c){
-                ball.r = -1;
-                ball.c = -1;
+        while(!walls[nextR][nextC] && (otherRLoc != nextR || otherCLoc != nextC)){
+            if(nextR == hole[0] && nextC == hole[1]){
+                state[thisR] = -1;
+                state[thisC] = -1;
                 break;
             }
 
-            ball.r = nextR;
-            ball.c = nextC;
+            state[thisR] = nextR;
+            state[thisC] = nextC;
 
             nextR += dv;
             nextC += dh;
         }
-
-        return ball;
     }
 
-    private static Ball[] init(char[][] board){
-        Ball[] balls = new Ball[3];
+    private static Integer[][] init(char[][] board){
+        Integer[][] balls = new Integer[3][2];
 
         for(int i = 0; i < m; i++){
             for(int j = 0; j < n; j++){
                  if(board[i][j] == 'R'){
-                    balls[0] = new Ball(i, j);
+                    balls[0] = new Integer[]{i, j};
                     continue;
                 }
 
                 if(board[i][j] == 'B'){
-                    balls[1] = new Ball(i, j);
+                    balls[1] = new Integer[]{i, j};
                     continue;
                 }
 
                 if(board[i][j] == 'O'){
-                    balls[2] = new Ball(i, j);
+                    balls[2] = new Integer[]{i, j};
                     continue;
                 }
 
