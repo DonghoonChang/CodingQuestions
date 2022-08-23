@@ -48,7 +48,7 @@ public class Main {
         Ball initRed = balls[0];
         Ball initBlue = balls[1];
         Ball hole = balls[2];
-        Set<String> prev = new HashSet<>();
+        Set<Integer> prev = new HashSet<>();
 
         PriorityQueue<State> heap = new PriorityQueue<>(Comparator.comparingInt(move -> move.step));
         heap.add(new State(0, initRed, initBlue));
@@ -66,10 +66,6 @@ public class Main {
                     continue;
                 }
 
-                // Print Board
-//                printGame(m, n, nextState, hole);
-
-                // End Game
                 if(nextState.blue.exited()){
                     continue;
                 }
@@ -78,7 +74,7 @@ public class Main {
                     return nextState.step;
                 }
 
-                String cacheKey = getCashKey(nextState);
+                Integer cacheKey = getCashKey(nextState);
                 if(prev.contains(cacheKey)){
                     continue;
                 }
@@ -91,44 +87,8 @@ public class Main {
         return -1;
     }
 
-    private static String getCashKey(State state){
-        return "" + state.red.r + state.red.c + state.blue.r + state.blue.c;
-    }
-
-    private static void printGame(int m, int n, State state, Ball hole){
-        System.out.print("Step: ");
-        System.out.println (state.step);
-
-        char[][] board = new char[m][n];
-        for(char[] row: board){
-            Arrays.fill(row, '.');
-        }
-
-        for(int i = 0; i < m; i++){
-            for(int j = 0; j < n; j++){
-                if(walls[i][j]){
-                    board[i][j] = '#';
-                    continue;
-                }
-            }
-        }
-
-        if(state.red.r != -1){
-            board[state.red.r][state.red.c] = 'R';
-        }
-
-        if(state.blue.r != -1){
-            board[state.blue.r][state.blue.c] = 'B';
-        }
-
-        board[hole.r][hole.c] = 'O';
-
-        for(char[] row: board){
-            for(char ch: row){
-                System.out.print(ch);
-            }
-            System.out.println();
-        }
+    private static int getCashKey(State state){
+        return 1000 * state.red.r + 100 * state.red.c + 10 * state.blue.r + state.blue.c;
     }
 
     private static List<State> getNextMoves(State current, Ball hole){
@@ -139,12 +99,7 @@ public class Main {
                     continue;
                 }
 
-                int nextRr = current.red.r + i;
-                int nextRc = current.red.c + j;
-                int nextBr = current.blue.r + i;
-                int nextBc = current.blue.c + j;
-
-                if(walls[nextRr][nextRc] && walls[nextBr][nextBc]){
+                if(walls[current.red.r + i][current.red.c + j] && walls[current.blue.r + i][current.blue.c + j]){
                     continue;
                 }
 
@@ -183,7 +138,7 @@ public class Main {
         int nextR = ball.r;
         int nextC = ball.c;
 
-        while(nextR >= 0 && nextC >= 0 && !walls[nextR][nextC] && (other.r != nextR || other.c != nextC)){
+        while(!walls[nextR][nextC] && (other.r != nextR || other.c != nextC)){
             if(nextR == hole.r && nextC == hole.c){
                 ball.r = -1;
                 ball.c = -1;
